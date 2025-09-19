@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+  }
+}
+
+:root {
+  --primary: #570df8;
+  --secondary: #f000b8;
+  --accent: #37cdbe;
+  --neutral: #3d4451;
+  --info: #3abff8;
+  --success: #36d399;
+  --warning: #fbbd23;
+  --error: #f87272;
+}
+
+/* Light theme override */
+[data-theme="light"] {
+  --color-base-100: #bfe7fd !important;
+  --color-base-200: #a0d9fc !important;
+  --color-base-300: #81cbfb !important;
+  --color-base-content: #0f172a !important; /* Changed to darker color */
+  
+  /* Also set DaisyUI's internal variables */
+  --b1: #bfe7fd !important;
+  --b2: #a0d9fc !important;
+  --b3: #81cbfb !important;
+  --bc: #0f172a !important; /* Changed to darker color */
+}
+
+/* Dark theme override */
+[data-theme="dark"] {
+  --color-base-100: #1f2937 !important;
+  --color-base-200: #111827 !important;
+  --color-base-300: #0f172a !important;
+  --color-base-content: #ffffff !important; /* Changed to white */
+  
+  /* Also set DaisyUI's internal variables */
+  --b1: #1f2937 !important;
+  --b2: #111827 !important;
+  --b3: #0f172a !important;
+  --bc: #ffffff !important; /* Changed to white */
+}
+
+/* Force background colors for specific elements */
+[data-theme="light"] body,
+[data-theme="light"] .bg-base-100,
+[data-theme="light"] .bg-base-200,
+[data-theme="light"] .bg-base-300 {
+  background-color: #bfe7fd !important;
+}
+
+[data-theme="dark"] body,
+[data-theme="dark"] .bg-base-100,
+[data-theme="dark"] .bg-base-200,
+[data-theme="dark"] .bg-base-300 {
+  background-color: #1f2937 !important;
+}
+
+@layer components {
+  .btn-student {
+    @apply py-2 px-4 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-opacity-75;
+  }
+}
+
+@layer utilities {
+  .text-student-primary {
+    color: var(--primary);
+  }
+}
+
+/* Add this to your CSS */
+[data-theme="dark"] {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] p,
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] span,
+[data-theme="dark"] div:not([class*="bg-"]):not([class*="text-"]) {
+  color: inherit !important;
+}
+
+[data-theme="dark"] .text-base-content {
+  color: #ffffff !important;
+}

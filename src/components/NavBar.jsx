@@ -7,7 +7,7 @@ import { BASE_URL } from '../utils/constants';
 import Themes from './Themes';
 
 const NavBar = () => {
-  const user = useSelector((store) => store.user);
+  const user = useSelector((store) => store.user.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -37,10 +37,9 @@ const NavBar = () => {
             </div>
             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li>
-                <a className="justify-between">
+                <Link to="/profile" className="justify-between">
                   Profile
-                  <span className="badge">New</span>
-                </a>
+                </Link>
               </li>
               <li><a>Settings</a></li>
               <li><button onClick={handleLogout}>Logout</button></li>

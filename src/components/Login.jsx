@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import toast from 'react-hot-toast';
-import { addUser } from '../utils/userSlice';
-import { BASE_URL } from '../utils/constants';
+import { registerUser, loginUser } from '../utils/userSlice';
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,29 +12,30 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user, loading, error } = useSelector((state) => state.user);
 
   const toggleLogin = () => {
     setIsLogin(!isLogin);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const url = isLogin ? `${BASE_URL}/auth/login` : `${BASE_URL}/auth/register`;
-    const payload = isLogin ? { email, password } : { firstName, lastName, email, password };
-    const loadingToast = toast.loading(isLogin ? 'Logging in...' : 'Signing up...');
-
-    try {
-      const res = await axios.post(url, payload, { withCredentials: true });
-      dispatch(addUser(res.data));
-      toast.dismiss(loadingToast);
-      toast.success(isLogin ? 'Logged in successfully!' : 'Signed up successfully!');
-      navigate('/');
-    } catch (err) {
-      toast.dismiss(loadingToast);
-      toast.error(err.response?.data?.message || 'An error occurred');
-      console.error(err);
+    if (isLogin) {
+      dispatch(loginUser({ email, password }));
+    } else {
+      dispatch(registerUser({ firstName, lastName, email, password }));
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+    if (user) {
+      toast.success(isLogin ? 'Logged in successfully!' : 'Signed up successfully!');
+      navigate('/');
+    }
+  }, [user, error, isLogin, navigate]);
 
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -102,8 +101,8 @@ const Login = () => {
               />
             </div>
             <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary">
-                {isLogin ? 'Login' : 'Sign Up'}
+              <button type="submit" className="btn btn-primary" disabled={loading}>
+                {loading ? (isLogin ? 'Logging in...' : 'Signing up...') : (isLogin ? 'Login' : 'Sign Up')}
               </button>
             </div>
             <div className="text-center mt-4">

@@ -5,6 +5,9 @@ import appStore from './utils/appStore';
 import Body from './components/Body';
 import Dashboard from './components/Dashboard';
 import ModuleView from './components/ModuleView';
+import Login from './components/Login';
+
+import UserProfile from './components/UserProfile';
 
 const appRouter = createBrowserRouter([
   {
@@ -19,7 +22,15 @@ const appRouter = createBrowserRouter([
         path: '/module/:id',
         element: <ModuleView />,
       },
+      {
+        path: '/profile',
+        element: <UserProfile />,
+      },
     ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
   },
 ]);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useTimer } from '../../hooks/useTimer';
-import { startTask, pauseTask, completeTask } from '../../utils/tasksSlice';
+import { startTaskSession, completeTaskSession } from '../../utils/tasksSlice';
 
 const TaskTimer = ({ task, onTaskUpdate }) => {
   const dispatch = useDispatch();
@@ -15,35 +15,38 @@ const TaskTimer = ({ task, onTaskUpdate }) => {
     stop,
     reset,
     formatTime
-  } = useTimer();
+  } = useTimer(task.status);
 
-  const handleStart = () => {
+  const handleStart = async () => {
     start();
-    dispatch(startTask({ taskId: task.id }));
-    if (onTaskUpdate) {
-      onTaskUpdate();
+    try {
+      await dispatch(startTaskSession({ 
+        taskId: task.id, 
+        module: task.module 
+      })).unwrap();
+    } catch (error) {
+      console.error('Failed to start task session:', error);
     }
   };
 
   const handlePause = () => {
     pause();
-    const session = stop();
-    dispatch(pauseTask({ taskId: task.id, session }));
-    if (onTaskUpdate) {
-      onTaskUpdate();
-    }
   };
 
   const handleResume = () => {
     resume();
   };
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     const session = stop();
-    dispatch(completeTask({ taskId: task.id, session }));
-    reset();
-    if (onTaskUpdate) {
-      onTaskUpdate();
+    try {
+      await dispatch(completeTaskSession({ 
+        taskId: task.id, 
+        duration: session.duration 
+      })).unwrap();
+      reset();
+    } catch (error) {
+      console.error('Failed to complete task session:', error);
     }
   };
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const Themes = () => {
   const [currentTheme, setCurrentTheme] = useState(() => {
-    return localStorage.getItem('theme') || 'cupcake';
+    return localStorage.getItem('theme') || 'exotic';
   });
 
   useEffect(() => {
@@ -33,6 +33,17 @@ const Themes = () => {
         </svg>
       </div>
       <ul tabIndex={0} className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+        <li>
+          <input
+            type="radio"
+            name="theme-dropdown"
+            className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
+            aria-label="Exotic"
+            value="exotic"
+            checked={currentTheme === 'exotic'}
+            onChange={() => handleThemeChange('exotic')}
+          />
+        </li>
         <li>
           <input
             type="radio"

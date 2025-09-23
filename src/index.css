@@ -7,6 +7,7 @@
 @layer base {
   body {
     font-family: 'Inter', sans-serif;
+    position: relative;
   }
   h1,
   h2,
@@ -16,6 +17,48 @@
   h6 {
     font-weight: 700;
   }
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Make sure you have an image at src/assets/bg-image.jpg */
+  background-image: url('./assets/bg-image.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px);
+  z-index: -1;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+[data-theme="exotic"] body::after {
+  background-color: rgba(17, 24, 39, 0.8);
+}
+
+[data-theme="light"] body::after {
+  background-color: rgba(191, 231, 253, 0.8);
+}
+
+[data-theme="dark"] body::after {
+  background-color: rgba(31, 41, 55, 0.8);
+}
+
+[data-theme="cupcake"] body::after {
+  background-color: rgba(239, 223, 229, 0.8);
 }
 
 :root {
@@ -56,6 +99,33 @@
   --b3: #0f172a !important;
   --bc: #ffffff !important; /* Changed to white */
 }
+
+[data-theme="exotic"] {
+  --primary: #570df8;
+  --secondary: #f000b8;
+  --accent: #37cdbe;
+  --neutral: #1f2937;
+  --base-100: #111827;
+  --base-200: #1f2937;
+  --base-300: #374151;
+  --base-content: #ffffff;
+}
+
+[data-theme="exotic"] .dropdown-content .btn-ghost {
+  color: white;
+}
+
+[data-theme="exotic"] .navbar {
+  background: linear-gradient(to right, #570df8, #f000b8);
+  color: white;
+}
+
+[data-de-theme="exotic"] .btn-primary {
+  background: linear-gradient(to right, #570df8, #f000b8);
+  color: white;
+  border: none;
+}
+
 
 /* Force background colors for specific elements */
 [data-theme="light"] body,
@@ -103,4 +173,10 @@
 
 [data-theme="dark"] .text-base-content {
   color: #ffffff !important;
+}
+
+.progress {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
 }

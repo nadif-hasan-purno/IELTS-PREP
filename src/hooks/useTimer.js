@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 
-export const useTimer = () => {
+export const useTimer = (initialStatus) => {
   const [time, setTime] = useState(0); // Time in seconds
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(initialStatus === 'in-progress');
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef(null);
   const startTimeRef = useRef(null);
@@ -18,6 +18,16 @@ export const useTimer = () => {
 
     return () => clearInterval(intervalRef.current);
   }, [isActive, isPaused]);
+
+  // New useEffect to react to initialStatus changes
+  useEffect(() => {
+    if (initialStatus === 'in-progress') {
+      setIsActive(true);
+      setIsPaused(false);
+    } else if (initialStatus === 'completed' || initialStatus === 'not-started') {
+      reset(); // Reset the timer if task is completed or not started
+    }
+  }, [initialStatus]); // Only re-run when initialStatus changes
 
   const start = () => {
     setIsActive(true);

@@ -1,25 +1,19 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProgressBar from './common/ProgressBar';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { fetchTasks } from '../utils/tasksSlice';
 
 const Dashboard = () => {
-  const tasks = useSelector((store) => store.tasks);
-  const { initializeTasks, saveTasks } = useLocalStorage();
+  const dispatch = useDispatch();
+  const tasksState = useSelector((store) => store.tasks);
+  const tasks = useMemo(() => tasksState.tasks || [], [tasksState.tasks]);
 
   useEffect(() => {
-    if (!tasks || tasks.length === 0) {
-      initializeTasks();
+    if (tasks.length === 0) {
+      dispatch(fetchTasks());
     }
-  }, [tasks, initializeTasks]);
-
-  // Save tasks to localStorage whenever tasks change
-  useEffect(() => {
-    if (tasks && tasks.length > 0) {
-      saveTasks(tasks);
-    }
-  }, [tasks, saveTasks]);
+  }, [dispatch, tasks.length]);
 
   const modules = [
     { name: 'Listening', id: 'listening' },
@@ -62,7 +56,7 @@ const Dashboard = () => {
     if (!tasks || tasks.length === 0) return [];
     return tasks
       .filter((task) => task.status === 'completed' && task.completedAt)
-      .sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt))
+            .sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt))
       .slice(0, limit);
   };
 
@@ -80,11 +74,24 @@ const Dashboard = () => {
   const totalTime = getTotalStudyTime();
   const recentTasks = getRecentCompletedTasks();
 
-  if (!tasks || tasks.length === 0) {
+  if (tasksState.loading) {
     return (
       <div className="p-4">
         <div className="flex justify-center items-center h-64">
           <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      </div>
+    );
+  }
+
+  if (tasks.length === 0) {
+    return (
+      <div className="p-4 max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold mb-8">IELTS Preparation Dashboard</h1>
+        <div className="text-center py-16 text-base-content/70">
+          <div className="text-5xl mb-4">📚</div>
+          <h2 className="text-2xl font-bold mb-2">Welcome to your IELTS Prep Dashboard!</h2>
+          <p className="mb-6">Loading your study plan...</p>
         </div>
       </div>
     );

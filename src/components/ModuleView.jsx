@@ -1,27 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import TaskTimer from './common/TaskTimer';
 import ProgressBar from './common/ProgressBar';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { fetchTasks } from '../utils/tasksSlice';
 
 const ModuleView = () => {
   const { id } = useParams();
-  const tasks = useSelector((store) => store.tasks);
-  const { initializeTasks, saveTasks } = useLocalStorage();
+  const dispatch = useDispatch();
+  const tasksState = useSelector((store) => store.tasks);
+  const tasks = useMemo(() => tasksState.tasks || [], [tasksState.tasks]);
 
   useEffect(() => {
     if (!tasks || tasks.length === 0) {
-      initializeTasks();
+      dispatch(fetchTasks());
     }
-  }, [tasks, initializeTasks]);
-
-  // Save tasks to localStorage whenever tasks change
-  useEffect(() => {
-    if (tasks && tasks.length > 0) {
-      saveTasks(tasks);
-    }
-  }, [tasks, saveTasks]);
+  }, [dispatch, tasks]);
 
   const moduleTasks = tasks ? tasks.filter((task) => task.module.toLowerCase() === id.toLowerCase()) : [];
 
@@ -56,6 +50,16 @@ const ModuleView = () => {
 
   const progress = getModuleProgress();
   const totalTime = getTotalStudyTime();
+
+  if (tasksState.loading) {
+    return (
+      <div className="p-4">
+        <div className="flex justify-center items-center h-64">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      </div>
+    );
+  }
 
   if (!tasks || tasks.length === 0) {
     return (

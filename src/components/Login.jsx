@@ -38,7 +38,7 @@ const Login = () => {
   }, [user, error, isLogin, navigate]);
 
   return (
-    <div className="hero min-h-screen bg-base-200">
+    <div className="hero min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold">{isLogin ? 'Login now!' : 'Sign up now!'}</h1>
@@ -101,7 +101,7 @@ const Login = () => {
               />
             </div>
             <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary" disabled={loading}>
+              <button type="submit" className="btn btn-primary btn-outline" disabled={loading}>
                 {loading ? (isLogin ? 'Logging in...' : 'Signing up...') : (isLogin ? 'Login' : 'Sign Up')}
               </button>
             </div>

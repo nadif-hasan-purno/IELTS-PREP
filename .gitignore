@@ -11,6 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+copilot-instructions-backend.md
+Ielts-prep - Project Requirements Document.md
+copilot-instructions.md
+
+
 
 # Editor directories and files
 .vscode/*

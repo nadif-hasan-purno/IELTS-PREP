@@ -65,8 +65,10 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user;
-        localStorage.setItem('user', JSON.stringify(action.payload.user));
+        // Combine user info and token into one object
+        const userWithToken = { ...action.payload.user, token: action.payload.token };
+        state.user = userWithToken;
+        localStorage.setItem('user', JSON.stringify(userWithToken));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;

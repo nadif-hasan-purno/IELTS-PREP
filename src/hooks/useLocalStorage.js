@@ -59,7 +59,7 @@ export const useLocalStorage = () => {
   // Get user profile
   const getUserProfile = () => {
     const savedProfile = localStorage.getItem('ieltsUserProfile');
-    if (savedProfile) {
+    if (savedProfile && savedProfile !== 'undefined') {
       try {
         return JSON.parse(savedProfile);
       } catch (error) {

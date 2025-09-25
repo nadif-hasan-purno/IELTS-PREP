@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import { registerUser, loginUser } from '../utils/userSlice';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { registerUser, loginUser } from "../utils/userSlice";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, loading, error } = useSelector((state) => state.user);
 
-  const toggleLogin = () => {
-    setIsLogin(!isLogin);
-  };
+  const toggleLogin = () => setIsLogin(!isLogin);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,8 +31,10 @@ const Login = () => {
       toast.error(error);
     }
     if (user) {
-      toast.success(isLogin ? 'Logged in successfully!' : 'Signed up successfully!');
-      navigate('/');
+      toast.success(
+        isLogin ? "Logged in successfully!" : "Signed up successfully!"
+      );
+      navigate("/", { replace: true }); // ✅ redirect immediately
     }
   }, [user, error, isLogin, navigate]);
 
@@ -41,8 +42,12 @@ const Login = () => {
     <div className="hero min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">{isLogin ? 'Login now!' : 'Sign up now!'}</h1>
-          <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+          <h1 className="text-5xl font-bold">
+            {isLogin ? "Login now!" : "Sign up now!"}
+          </h1>
+          <p className="py-6">
+            Welcome back! Please log in or create an account to continue.
+          </p>
         </div>
         <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <form className="card-body" onSubmit={handleSubmit}>
@@ -101,13 +106,29 @@ const Login = () => {
               />
             </div>
             <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary btn-outline" disabled={loading}>
-                {loading ? (isLogin ? 'Logging in...' : 'Signing up...') : (isLogin ? 'Login' : 'Sign Up')}
+              <button
+                type="submit"
+                className="btn btn-primary btn-outline"
+                disabled={loading}
+              >
+                {loading
+                  ? isLogin
+                    ? "Logging in..."
+                    : "Signing up..."
+                  : isLogin
+                  ? "Login"
+                  : "Sign Up"}
               </button>
             </div>
             <div className="text-center mt-4">
-              <button type="button" onClick={toggleLogin} className="link link-hover">
-                {isLogin ? 'Need an account? Sign Up' : 'Already have an account? Login'}
+              <button
+                type="button"
+                onClick={toggleLogin}
+                className="link link-hover"
+              >
+                {isLogin
+                  ? "Need an account? Sign Up"
+                  : "Already have an account? Login"}
               </button>
             </div>
           </form>

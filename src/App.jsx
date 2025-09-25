@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Body from './components/Body';
 import Dashboard from './components/Dashboard';
@@ -11,7 +11,7 @@ import UserProfile from './components/UserProfile';
 import { fetchTasks } from './utils/tasksSlice';
 import { progressAPI } from './utils/apiService';
 
-const appRouter = createBrowserRouter([
+const appRouter = createHashRouter([
   {
     path: '/',
     element: <Body />,

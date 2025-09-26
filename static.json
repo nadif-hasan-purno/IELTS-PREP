@@ -1,3 +1,12 @@
 {
-  "routes": [{ "src": "/.*", "dest": "/index.html" }]
+  "routes": [
+    {
+      "src": "^/api/(.*)$",
+      "dest": "https://ielts-prep-backend.onrender.com/$1"
+    },
+    {
+      "src": "^/.*$",
+      "dest": "/index.html"
+    }
+  ]
 }

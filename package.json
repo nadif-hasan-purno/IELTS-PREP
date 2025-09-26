@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "node scripts/copy-static-json.js && node -e \"import('fs').then(({ readdirSync }) => readdirSync('dist').forEach(f => console.log(f)))\"",
     "lint": "eslint .",
     "preview": "vite preview"
   },

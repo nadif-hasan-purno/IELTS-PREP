@@ -1,23 +1,20 @@
-/* eslint-disable */
+const fs = require("fs");
+const path = require("path");
+const root = path.resolve(__dirname, "..");
+const src = path.join(root, "static.json");
+const destDir = path.join(root, "dist"); // change to 'build' if that's your publish folder
+const dest = path.join(destDir, "static.json");
 
-import { copyFileSync, existsSync } from 'fs';
-import { dirname, join, resolve } from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const root = resolve(__dirname, '..');
-const src = join(root, 'static.json');
-const destDir = join(root, 'dist');
-const dest = join(destDir, 'static.json');
-
-if (!existsSync(src)) {
-  console.error('ERROR: static.json not found at repo root:', src);
+if (!fs.existsSync(src)) {
+  console.error("ERROR: static.json not found at repo root:", src);
   process.exit(1);
 }
-if (!existsSync(destDir)) {
-  console.error('ERROR: dist directory not found; run the build first:', destDir);
+if (!fs.existsSync(destDir)) {
+  console.error(
+    "ERROR: dist directory not found; run the build first:",
+    destDir
+  );
   process.exit(1);
 }
-copyFileSync(src, dest);
-console.log('Copied static.json to dist/static.json');
+fs.copyFileSync(src, dest);
+console.log("Copied static.json to", dest);

@@ -7,7 +7,7 @@ services:
     buildCommand: npm run build # Your build command to create the 'dist' folder
     staticPublishPath: dist # Your build output directory
 
-    routes:
+routes:
   - type: rewrite
     source: ^[^.]+
     destination: /index.html

@@ -12,8 +12,10 @@ dist
 dist-ssr
 *.local
 
-*.md
-!README.md
+copilot-instructions-backend.md
+copilot-instructions-frontend.md
+Ielts-prep - Project Requirements Document.md
+
 
 
 

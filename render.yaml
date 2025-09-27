@@ -1,13 +1,13 @@
 services:
   # ... other services (like your backend web service)
-  
-  - type: static_site  # ✅ CORRECT: Use static_site for bundled React apps
+
+  - type: static_site # ✅ CORRECT: Use static_site for bundled React apps
     name: ielts-prep-app
     # env is not required for static_site
     buildCommand: npm run build # Your build command to create the 'dist' folder
-    staticPublishPath: dist     # Your build output directory
-    
+    staticPublishPath: dist # Your build output directory
+
     routes:
-      - type: rewrite
-        source: /.* # Use the standard RegEx to match any path
-        destination: /index.html
+  - type: rewrite
+    source: ^[^.]+
+    destination: /index.html
